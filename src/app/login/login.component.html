@@ -1,18 +1,37 @@
-<p>Login Works</p>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <div class="container">
     <h2>Login Form</h2>
     <form #loginform="ngForm" (ngSubmit)="loginUser()">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
+            <input type="email" class="form-control" name="email"  [(ngModel)]="noname.emailId"  placeholder="Enter Email" 
+            pattern="\w+@[a-zA-Z]+?\.+[a-z]{2,3}$" required #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
+            <!-- <small class="text-danger" [class.d-none]="email.valid || email.untouched">Please enter a valid Email</small> -->
+            <div *ngIf="email.errors && (email.invalid && email.touched)">
+                <small class="text-danger" *ngIf="email.errors.pattern">Enter the valid EmailId</small>
+                <small class="text-danger" *ngIf="email.errors.required">Please Enter the mailId</small>
+            </div>
         </div>
+        &nbsp;
         <div class="form-group">
             <label for="pwd">Password</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter the password" name="pwd">
+            <input type="password" [(ngModel)]="noname.password" name="pwd" class="form-control" name="password" placeholder="Enter the password" 
+            pattern="[a-z]*" required  #pwd="ngModel" [class.is-invalid]="pwd.invalid && pwd.touched">
+            <!-- <small class="text-danger" [class.d-none]="pwd.valid || pwd.untouched">Please enter a valid password</small> -->
+            <div *ngIf="pwd.errors && (pwd.invalid && pwd.touched)">
+                <small class="text-danger" *ngIf="pwd.errors.pattern">Enter the valid password</small>
+                <small class="text-danger" *ngIf="pwd.errors.required">Please Enter the Password</small>
+            </div>
         </div>
+        &nbsp;
         <div class="checkbox">
             <label><input type="checkbox" name="remember">Remember me</label>
         </div>
-        <button type="submit" class="btn btn-info">Login</button>
-    </form>
+        <small class="text-danger">{{errormessage}}</small>&nbsp;&nbsp;
+        <div>
+            <button [disabled]="loginform.form.invalid" type="submit" class="btn btn-info">Login</button>
+        </div>
+        </form>
+        <small class="edit_link" (click)="gotoregistration()"><a>User? Register here</a></small>
+        <!-- <small [routerLink]="['/registration']">New user? register here</small> -->
 </div>
